@@ -15,7 +15,9 @@ let package = Package(
         .target(
             name: "audio_decoder",
             dependencies: [],
-            resources: []
+            resources: [
+                .process("PrivacyInfo.xcprivacy")
+            ]
         )
     ]
 )
