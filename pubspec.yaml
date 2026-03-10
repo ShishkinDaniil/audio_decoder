@@ -15,8 +15,8 @@ topics:
   - flutter-plugin
 
 screenshots:
-  - description: 'Example app showing waveform visualization with Material 3 design'
-    path: screenshots/example_waveform.png
+  - description: 'audio_decoder package logo'
+    path: screenshots/logo.png
 
 environment:
   sdk: ^3.10.8

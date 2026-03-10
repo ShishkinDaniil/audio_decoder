@@ -23,7 +23,7 @@ A lightweight Flutter plugin for converting, trimming, and analyzing audio files
 
 The example app demonstrates all features with a Material 3 interface and waveform visualization:
 
-![Example App](screenshots/example_waveform.png)
+<img src="screenshots/example_waveform.png" alt="Example App" width="400">
 
 ## Platform APIs
 
