@@ -62,8 +62,7 @@ void main() {
     }
   });
 
-  String outputPath(String name, String ext) =>
-      '${tempDir.path}/${name}_output.$ext';
+  String outputPath(String name, String ext) => '${tempDir.path}/${name}_output.$ext';
 
   void record(String label, int ms, int outputBytes) {
     final mb = (outputBytes / 1024 / 1024).toStringAsFixed(1);

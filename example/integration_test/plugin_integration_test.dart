@@ -34,8 +34,7 @@ void main() {
   }
 
   /// Build a temp output path with the given [extension] (e.g. 'wav').
-  String tempOutputPath(String name, String extension) =>
-      '${tempDir.path}/${name}_output.$extension';
+  String tempOutputPath(String name, String extension) => '${tempDir.path}/${name}_output.$extension';
 
   // ── 1. convertToWav ─────────────────────────────────────────────────
 

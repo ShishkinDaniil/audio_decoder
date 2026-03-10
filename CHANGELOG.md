@@ -26,7 +26,7 @@
   * Implemented on Android, iOS, macOS, Linux, and Windows.
 * Add Dart-level input validation for `convertToWav` and `convertToWavBytes` parameters.
   * `sampleRate`, `channels`, and `bitDepth` are validated before calling native code, throwing `ArgumentError` for invalid values.
-* Consolidate duplicate iOS/macOS Swift plugin code into shared source under `darwin/Classes/`.
+* Consolidate duplicate iOS/macOS Swift plugin code into shared source under `darwin/audio_decoder/Sources/audio_decoder/`.
 
 ## 0.6.0
 
