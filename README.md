@@ -216,7 +216,7 @@ The native decoders may support additional formats. You can always call `convert
 | Platform | Minimum version |
 |----------|----------------|
 | iOS | 13.0 |
-| macOS | 10.13 |
+| macOS | 10.15 |
 | Android | API 24 |
 | Windows | 7+ |
 | Linux | GStreamer 1.0+ |
