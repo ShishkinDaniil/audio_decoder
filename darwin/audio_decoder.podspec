@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'audio_decoder'
-  s.version          = '0.7.2'
+  s.version          = '0.7.3'
   s.summary          = 'A lightweight Flutter plugin for converting, trimming, and analyzing audio files.'
   s.description      = <<-DESC
 A lightweight Flutter plugin for converting, trimming, and analyzing audio files using native platform APIs.
@@ -13,7 +13,8 @@ A lightweight Flutter plugin for converting, trimming, and analyzing audio files
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Silversoft' => 'info@silversoft.nl' }
   s.source           = { :path => '.' }
-  s.source_files     = 'Classes/**/*'
+  s.source_files     = 'audio_decoder/Sources/audio_decoder/**/*'
+  s.resource_bundles = { 'audio_decoder_privacy' => ['audio_decoder/Sources/audio_decoder/PrivacyInfo.xcprivacy'] }
 
   s.ios.dependency 'Flutter'
   s.osx.dependency 'FlutterMacOS'

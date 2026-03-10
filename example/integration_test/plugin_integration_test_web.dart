@@ -19,39 +19,50 @@ void main() {
   // ── convertToWavBytes ───────────────────────────────────────────────
 
   group('convertToWavBytes', () {
-    testWidgets('MP3 → WAV bytes produces valid WAV',
-        (WidgetTester tester) async {
+    testWidgets('MP3 → WAV bytes produces valid WAV', (
+      WidgetTester tester,
+    ) async {
       final mp3Bytes = await loadAsset('test_tone.mp3');
-      final wavBytes =
-          await AudioDecoder.convertToWavBytes(mp3Bytes, formatHint: 'mp3');
+      final wavBytes = await AudioDecoder.convertToWavBytes(
+        mp3Bytes,
+        formatHint: 'mp3',
+      );
 
       validateWavHeader(wavBytes);
     });
 
-    testWidgets('M4A → WAV bytes produces valid WAV',
-        (WidgetTester tester) async {
+    testWidgets('M4A → WAV bytes produces valid WAV', (
+      WidgetTester tester,
+    ) async {
       final m4aBytes = await loadAsset('test_tone.m4a');
-      final wavBytes =
-          await AudioDecoder.convertToWavBytes(m4aBytes, formatHint: 'm4a');
+      final wavBytes = await AudioDecoder.convertToWavBytes(
+        m4aBytes,
+        formatHint: 'm4a',
+      );
 
       validateWavHeader(wavBytes);
     });
 
-    testWidgets('without header returns raw PCM',
-        (WidgetTester tester) async {
+    testWidgets('without header returns raw PCM', (WidgetTester tester) async {
       final mp3Bytes = await loadAsset('test_tone.mp3');
-      final wavBytes =
-          await AudioDecoder.convertToWavBytes(mp3Bytes, formatHint: 'mp3');
-      final pcmBytes = await AudioDecoder.convertToWavBytes(mp3Bytes,
-          formatHint: 'mp3', includeHeader: false);
+      final wavBytes = await AudioDecoder.convertToWavBytes(
+        mp3Bytes,
+        formatHint: 'mp3',
+      );
+      final pcmBytes = await AudioDecoder.convertToWavBytes(
+        mp3Bytes,
+        formatHint: 'mp3',
+        includeHeader: false,
+      );
 
       expect(pcmBytes.length, wavBytes.length - 44);
       expect(String.fromCharCodes(pcmBytes.sublist(0, 4)), isNot('RIFF'));
       expect(pcmBytes, wavBytes.sublist(44));
     });
 
-    testWidgets('with parameters reflects in header',
-        (WidgetTester tester) async {
+    testWidgets('with parameters reflects in header', (
+      WidgetTester tester,
+    ) async {
       final mp3Bytes = await loadAsset('test_tone.mp3');
       final wavBytes = await AudioDecoder.convertToWavBytes(
         mp3Bytes,
@@ -71,13 +82,18 @@ void main() {
   // ── getAudioInfoBytes ───────────────────────────────────────────────
 
   group('getAudioInfoBytes', () {
-    for (final entry
-        in {'test_tone.mp3': 'mp3', 'test_tone.m4a': 'm4a'}.entries) {
-      testWidgets('returns realistic metadata for ${entry.key}',
-          (WidgetTester tester) async {
+    for (final entry in {
+      'test_tone.mp3': 'mp3',
+      'test_tone.m4a': 'm4a',
+    }.entries) {
+      testWidgets('returns realistic metadata for ${entry.key}', (
+        WidgetTester tester,
+      ) async {
         final bytes = await loadAsset(entry.key);
-        final info = await AudioDecoder.getAudioInfoBytes(bytes,
-            formatHint: entry.value);
+        final info = await AudioDecoder.getAudioInfoBytes(
+          bytes,
+          formatHint: entry.value,
+        );
 
         expect(info.duration.inMilliseconds, greaterThan(0));
         expect(info.sampleRate, greaterThan(0));
@@ -89,12 +105,15 @@ void main() {
   // ── trimAudioBytes ──────────────────────────────────────────────────
 
   group('trimAudioBytes', () {
-    testWidgets('trimmed output is smaller than full conversion',
-        (WidgetTester tester) async {
+    testWidgets('trimmed output is smaller than full conversion', (
+      WidgetTester tester,
+    ) async {
       final mp3Bytes = await loadAsset('test_tone.mp3');
 
-      final fullWav =
-          await AudioDecoder.convertToWavBytes(mp3Bytes, formatHint: 'mp3');
+      final fullWav = await AudioDecoder.convertToWavBytes(
+        mp3Bytes,
+        formatHint: 'mp3',
+      );
       final trimmed = await AudioDecoder.trimAudioBytes(
         mp3Bytes,
         formatHint: 'mp3',
@@ -110,8 +129,9 @@ void main() {
   // ── getWaveformBytes ────────────────────────────────────────────────
 
   group('getWaveformBytes', () {
-    testWidgets('returns correct number of normalized samples',
-        (WidgetTester tester) async {
+    testWidgets('returns correct number of normalized samples', (
+      WidgetTester tester,
+    ) async {
       final mp3Bytes = await loadAsset('test_tone.mp3');
 
       const sampleCount = 150;
@@ -132,8 +152,9 @@ void main() {
   // ── Error handling ──────────────────────────────────────────────────
 
   group('Error handling', () {
-    testWidgets('corrupt bytes throw AudioConversionException',
-        (WidgetTester tester) async {
+    testWidgets('corrupt bytes throw AudioConversionException', (
+      WidgetTester tester,
+    ) async {
       final garbage = Uint8List.fromList(List.filled(256, 0xFF));
 
       await expectLater(
@@ -142,8 +163,7 @@ void main() {
       );
     });
 
-    testWidgets('convertToM4aBytes throws on web',
-        (WidgetTester tester) async {
+    testWidgets('convertToM4aBytes throws on web', (WidgetTester tester) async {
       final mp3Bytes = await loadAsset('test_tone.mp3');
 
       await expectLater(
@@ -152,8 +172,9 @@ void main() {
       );
     });
 
-    testWidgets('file-based convertToWav throws UnsupportedError',
-        (WidgetTester tester) async {
+    testWidgets('file-based convertToWav throws UnsupportedError', (
+      WidgetTester tester,
+    ) async {
       await expectLater(
         AudioDecoder.convertToWav('/fake/input.mp3', '/fake/output.wav'),
         throwsA(isA<UnsupportedError>()),

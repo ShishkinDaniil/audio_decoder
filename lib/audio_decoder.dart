@@ -30,7 +30,13 @@ final class AudioDecoder {
     int? bitDepth,
   }) {
     _validateWavParameters(sampleRate: sampleRate, channels: channels, bitDepth: bitDepth);
-    return AudioDecoderPlatform.instance.convertToWav(inputPath, outputPath, sampleRate: sampleRate, channels: channels, bitDepth: bitDepth);
+    return AudioDecoderPlatform.instance.convertToWav(
+      inputPath,
+      outputPath,
+      sampleRate: sampleRate,
+      channels: channels,
+      bitDepth: bitDepth,
+    );
   }
 
   /// Converts an audio file (MP3, WAV, FLAC, etc.) to M4A (AAC) format.
@@ -155,9 +161,14 @@ final class AudioDecoder {
     bool includeHeader = true,
   }) {
     _validateWavParameters(sampleRate: sampleRate, channels: channels, bitDepth: bitDepth);
-    return AudioDecoderPlatform.instance.convertToWavBytes(inputData, formatHint,
-        sampleRate: sampleRate, channels: channels, bitDepth: bitDepth,
-        includeHeader: includeHeader);
+    return AudioDecoderPlatform.instance.convertToWavBytes(
+      inputData,
+      formatHint,
+      sampleRate: sampleRate,
+      channels: channels,
+      bitDepth: bitDepth,
+      includeHeader: includeHeader,
+    );
   }
 
   /// Converts audio bytes to M4A (AAC) format.

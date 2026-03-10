@@ -12,7 +12,13 @@ final class MethodChannelAudioDecoder extends AudioDecoderPlatform {
   final methodChannel = const MethodChannel('audio_decoder');
 
   @override
-  Future<String> convertToWav(String inputPath, String outputPath, {int? sampleRate, int? channels, int? bitDepth}) async {
+  Future<String> convertToWav(
+    String inputPath,
+    String outputPath, {
+    int? sampleRate,
+    int? channels,
+    int? bitDepth,
+  }) async {
     try {
       final args = <String, dynamic>{
         'inputPath': inputPath,
@@ -125,7 +131,14 @@ final class MethodChannelAudioDecoder extends AudioDecoderPlatform {
   }
 
   @override
-  Future<Uint8List> convertToWavBytes(Uint8List inputData, String formatHint, {int? sampleRate, int? channels, int? bitDepth, bool? includeHeader}) async {
+  Future<Uint8List> convertToWavBytes(
+    Uint8List inputData,
+    String formatHint, {
+    int? sampleRate,
+    int? channels,
+    int? bitDepth,
+    bool? includeHeader,
+  }) async {
     try {
       final args = <String, dynamic>{
         'inputData': inputData,
@@ -196,7 +209,13 @@ final class MethodChannelAudioDecoder extends AudioDecoderPlatform {
   }
 
   @override
-  Future<Uint8List> trimAudioBytes(Uint8List inputData, String formatHint, Duration start, Duration end, {String outputFormat = 'wav'}) async {
+  Future<Uint8List> trimAudioBytes(
+    Uint8List inputData,
+    String formatHint,
+    Duration start,
+    Duration end, {
+    String outputFormat = 'wav',
+  }) async {
     try {
       final result = await methodChannel.invokeMethod<Uint8List>(
         'trimAudioBytes',

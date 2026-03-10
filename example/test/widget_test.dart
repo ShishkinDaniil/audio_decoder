@@ -10,11 +10,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:audio_decoder_example/main.dart';
 
 void main() {
-  testWidgets('App renders with initial status text', (WidgetTester tester) async {
+  testWidgets('App renders with initial status text', (
+    WidgetTester tester,
+  ) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
     // Verify that the app renders with the initial status text.
-    expect(find.text('Ready - tap a button to test audio operations.'), findsOneWidget);
+    expect(
+      find.text('Ready - tap a button to test audio operations.'),
+      findsOneWidget,
+    );
   });
 }

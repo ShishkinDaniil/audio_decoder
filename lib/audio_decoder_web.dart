@@ -29,33 +29,27 @@ final class AudioDecoderWeb extends AudioDecoderPlatform {
 
   @override
   Future<String> convertToWav(String inputPath, String outputPath, {int? sampleRate, int? channels, int? bitDepth}) {
-    throw UnsupportedError(
-        'File-based operations are not supported on web. Use convertToWavBytes instead.');
+    throw UnsupportedError('File-based operations are not supported on web. Use convertToWavBytes instead.');
   }
 
   @override
   Future<String> convertToM4a(String inputPath, String outputPath) {
-    throw UnsupportedError(
-        'File-based operations are not supported on web. Use convertToM4aBytes instead.');
+    throw UnsupportedError('File-based operations are not supported on web. Use convertToM4aBytes instead.');
   }
 
   @override
   Future<AudioInfo> getAudioInfo(String path) {
-    throw UnsupportedError(
-        'File-based operations are not supported on web. Use getAudioInfoBytes instead.');
+    throw UnsupportedError('File-based operations are not supported on web. Use getAudioInfoBytes instead.');
   }
 
   @override
-  Future<String> trimAudio(
-      String inputPath, String outputPath, Duration start, Duration end) {
-    throw UnsupportedError(
-        'File-based operations are not supported on web. Use trimAudioBytes instead.');
+  Future<String> trimAudio(String inputPath, String outputPath, Duration start, Duration end) {
+    throw UnsupportedError('File-based operations are not supported on web. Use trimAudioBytes instead.');
   }
 
   @override
   Future<List<double>> getWaveform(String path, int numberOfSamples) {
-    throw UnsupportedError(
-        'File-based operations are not supported on web. Use getWaveformBytes instead.');
+    throw UnsupportedError('File-based operations are not supported on web. Use getWaveformBytes instead.');
   }
 
   // --- Bytes-based methods (Web Audio API) ---
@@ -74,9 +68,14 @@ final class AudioDecoderWeb extends AudioDecoderPlatform {
     }
   }
 
-  Uint8List _encodeWav(web.AudioBuffer buffer,
-      {int? startSample, int? endSample, int? targetChannels, int? targetBitDepth,
-       bool includeHeader = true}) {
+  Uint8List _encodeWav(
+    web.AudioBuffer buffer, {
+    int? startSample,
+    int? endSample,
+    int? targetChannels,
+    int? targetBitDepth,
+    bool includeHeader = true,
+  }) {
     final sampleRate = buffer.sampleRate.toInt();
     final srcChannels = buffer.numberOfChannels;
     final numChannels = targetChannels ?? srcChannels;
@@ -189,14 +188,24 @@ final class AudioDecoderWeb extends AudioDecoderPlatform {
 
   @override
   Future<Uint8List> convertToWavBytes(
-      Uint8List inputData, String formatHint, {int? sampleRate, int? channels, int? bitDepth, bool? includeHeader}) async {
+    Uint8List inputData,
+    String formatHint, {
+    int? sampleRate,
+    int? channels,
+    int? bitDepth,
+    bool? includeHeader,
+  }) async {
     try {
       var buffer = await _decodeAudioData(inputData);
       if (sampleRate != null && sampleRate != buffer.sampleRate.toInt()) {
         buffer = await _resample(buffer, sampleRate);
       }
-      return _encodeWav(buffer, targetChannels: channels, targetBitDepth: bitDepth,
-          includeHeader: includeHeader ?? true);
+      return _encodeWav(
+        buffer,
+        targetChannels: channels,
+        targetBitDepth: bitDepth,
+        includeHeader: includeHeader ?? true,
+      );
     } catch (e) {
       if (e is AudioConversionException) rethrow;
       throw AudioConversionException('WAV conversion failed: $e');
@@ -219,26 +228,21 @@ final class AudioDecoderWeb extends AudioDecoderPlatform {
   }
 
   @override
-  Future<Uint8List> convertToM4aBytes(
-      Uint8List inputData, String formatHint) async {
+  Future<Uint8List> convertToM4aBytes(Uint8List inputData, String formatHint) async {
     throw AudioConversionException(
       'M4A encoding is not supported on web',
-      details:
-          'Browsers do not provide a reliable AAC/M4A encoding API. Use convertToWavBytes instead.',
+      details: 'Browsers do not provide a reliable AAC/M4A encoding API. Use convertToWavBytes instead.',
     );
   }
 
   @override
-  Future<AudioInfo> getAudioInfoBytes(
-      Uint8List inputData, String formatHint) async {
+  Future<AudioInfo> getAudioInfoBytes(Uint8List inputData, String formatHint) async {
     try {
       final buffer = await _decodeAudioData(inputData);
       final durationMs = (buffer.duration * 1000).round();
       final sampleRate = buffer.sampleRate.toInt();
       final channels = buffer.numberOfChannels;
-      final bitRate = buffer.duration > 0
-          ? ((inputData.length * 8) / buffer.duration).round()
-          : 0;
+      final bitRate = buffer.duration > 0 ? ((inputData.length * 8) / buffer.duration).round() : 0;
       return AudioInfo(
         duration: Duration(milliseconds: durationMs),
         sampleRate: sampleRate,
@@ -253,9 +257,13 @@ final class AudioDecoderWeb extends AudioDecoderPlatform {
   }
 
   @override
-  Future<Uint8List> trimAudioBytes(Uint8List inputData, String formatHint,
-      Duration start, Duration end,
-      {String outputFormat = 'wav'}) async {
+  Future<Uint8List> trimAudioBytes(
+    Uint8List inputData,
+    String formatHint,
+    Duration start,
+    Duration end, {
+    String outputFormat = 'wav',
+  }) async {
     if (outputFormat == 'm4a') {
       throw AudioConversionException(
         'M4A encoding is not supported on web',
@@ -265,12 +273,9 @@ final class AudioDecoderWeb extends AudioDecoderPlatform {
     try {
       final buffer = await _decodeAudioData(inputData);
       final sampleRate = buffer.sampleRate;
-      final startSample =
-          (start.inMilliseconds * sampleRate / 1000).round();
-      final endSample = min(
-          (end.inMilliseconds * sampleRate / 1000).round(), buffer.length);
-      return _encodeWav(buffer,
-          startSample: startSample, endSample: endSample);
+      final startSample = (start.inMilliseconds * sampleRate / 1000).round();
+      final endSample = min((end.inMilliseconds * sampleRate / 1000).round(), buffer.length);
+      return _encodeWav(buffer, startSample: startSample, endSample: endSample);
     } catch (e) {
       if (e is AudioConversionException) rethrow;
       throw AudioConversionException('Trim failed: $e');
@@ -278,8 +283,7 @@ final class AudioDecoderWeb extends AudioDecoderPlatform {
   }
 
   @override
-  Future<List<double>> getWaveformBytes(
-      Uint8List inputData, String formatHint, int numberOfSamples) async {
+  Future<List<double>> getWaveformBytes(Uint8List inputData, String formatHint, int numberOfSamples) async {
     try {
       final buffer = await _decodeAudioData(inputData);
       final channelData = buffer.getChannelData(0).toDart;
@@ -308,8 +312,7 @@ final class AudioDecoderWeb extends AudioDecoderPlatform {
         if (rms > maxRms) maxRms = rms;
       }
 
-      final result =
-          waveform.map((rms) => maxRms > 0 ? rms / maxRms : 0.0).toList();
+      final result = waveform.map((rms) => maxRms > 0 ? rms / maxRms : 0.0).toList();
 
       while (result.length < numberOfSamples) {
         result.add(0.0);

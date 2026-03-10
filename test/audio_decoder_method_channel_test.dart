@@ -43,8 +43,7 @@ void main() {
     });
 
     expect(
-      await platform.convertToWav('/input/test.mp3', '/output/test.wav',
-          sampleRate: 44100, channels: 1, bitDepth: 24),
+      await platform.convertToWav('/input/test.mp3', '/output/test.wav', sampleRate: 44100, channels: 1, bitDepth: 24),
       '/output/test.wav',
     );
   });
@@ -266,8 +265,10 @@ void main() {
       });
 
       final result = await platform.trimAudioBytes(
-        testInput, 'mp3',
-        const Duration(seconds: 1), const Duration(seconds: 3),
+        testInput,
+        'mp3',
+        const Duration(seconds: 1),
+        const Duration(seconds: 3),
       );
       expect(result, trimmed);
     });
@@ -326,8 +327,7 @@ void main() {
         return wavBytes;
       });
 
-      final result = await platform.convertToWavBytes(testInput, 'mp3',
-          sampleRate: 22050, channels: 1, bitDepth: 8);
+      final result = await platform.convertToWavBytes(testInput, 'mp3', sampleRate: 22050, channels: 1, bitDepth: 8);
       expect(result, wavBytes);
     });
 
@@ -341,8 +341,7 @@ void main() {
         return pcmBytes;
       });
 
-      final result = await platform.convertToWavBytes(testInput, 'mp3',
-          includeHeader: false);
+      final result = await platform.convertToWavBytes(testInput, 'mp3', includeHeader: false);
       expect(result, pcmBytes);
     });
 
