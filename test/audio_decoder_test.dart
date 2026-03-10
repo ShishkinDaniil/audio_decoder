@@ -8,7 +8,8 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 final class MockAudioDecoderPlatform extends AudioDecoderPlatform with MockPlatformInterfaceMixin {
   @override
-  Future<String> convertToWav(String inputPath, String outputPath, {int? sampleRate, int? channels, int? bitDepth}) => Future.value(outputPath);
+  Future<String> convertToWav(String inputPath, String outputPath, {int? sampleRate, int? channels, int? bitDepth}) =>
+      Future.value(outputPath);
 
   @override
   Future<String> convertToM4a(String inputPath, String outputPath) => Future.value(outputPath);
@@ -32,10 +33,18 @@ final class MockAudioDecoderPlatform extends AudioDecoderPlatform with MockPlatf
   Future<List<double>> getWaveform(String path, int numberOfSamples) => Future.value(List.filled(numberOfSamples, 0.5));
 
   @override
-  Future<Uint8List> convertToWavBytes(Uint8List inputData, String formatHint, {int? sampleRate, int? channels, int? bitDepth, bool? includeHeader}) =>
-      Future.value(Uint8List.fromList(
-        (includeHeader == false) ? [0x00, 0x01] : [0x52, 0x49, 0x46, 0x46],
-      ));
+  Future<Uint8List> convertToWavBytes(
+    Uint8List inputData,
+    String formatHint, {
+    int? sampleRate,
+    int? channels,
+    int? bitDepth,
+    bool? includeHeader,
+  }) => Future.value(
+    Uint8List.fromList(
+      (includeHeader == false) ? [0x00, 0x01] : [0x52, 0x49, 0x46, 0x46],
+    ),
+  );
 
   @override
   Future<Uint8List> convertToM4aBytes(Uint8List inputData, String formatHint) =>
@@ -53,8 +62,13 @@ final class MockAudioDecoderPlatform extends AudioDecoderPlatform with MockPlatf
   );
 
   @override
-  Future<Uint8List> trimAudioBytes(Uint8List inputData, String formatHint, Duration start, Duration end, {String outputFormat = 'wav'}) =>
-      Future.value(Uint8List.fromList([0x52, 0x49, 0x46, 0x46]));
+  Future<Uint8List> trimAudioBytes(
+    Uint8List inputData,
+    String formatHint,
+    Duration start,
+    Duration end, {
+    String outputFormat = 'wav',
+  }) => Future.value(Uint8List.fromList([0x52, 0x49, 0x46, 0x46]));
 
   @override
   Future<List<double>> getWaveformBytes(Uint8List inputData, String formatHint, int numberOfSamples) =>
@@ -279,8 +293,13 @@ void main() {
     });
 
     test('convertToWav accepts valid parameters', () async {
-      final result = await AudioDecoder.convertToWav('/in.mp3', '/out.wav',
-          sampleRate: 44100, channels: 2, bitDepth: 16);
+      final result = await AudioDecoder.convertToWav(
+        '/in.mp3',
+        '/out.wav',
+        sampleRate: 44100,
+        channels: 2,
+        bitDepth: 16,
+      );
       expect(result, '/out.wav');
     });
 
@@ -327,23 +346,32 @@ void main() {
 
     test('convertToWav accepts all parameters', () async {
       expect(
-        await AudioDecoder.convertToWav('/input/test.mp3', '/output/test.wav',
-            sampleRate: 48000, channels: 2, bitDepth: 16),
+        await AudioDecoder.convertToWav(
+          '/input/test.mp3',
+          '/output/test.wav',
+          sampleRate: 48000,
+          channels: 2,
+          bitDepth: 16,
+        ),
         '/output/test.wav',
       );
     });
 
     test('convertToWavBytes accepts optional parameters', () async {
       final input = Uint8List.fromList([1, 2, 3]);
-      final result = await AudioDecoder.convertToWavBytes(input,
-          formatHint: 'mp3', sampleRate: 22050, channels: 1, bitDepth: 8);
+      final result = await AudioDecoder.convertToWavBytes(
+        input,
+        formatHint: 'mp3',
+        sampleRate: 22050,
+        channels: 1,
+        bitDepth: 8,
+      );
       expect(result, isNotEmpty);
     });
 
     test('convertToWavBytes with includeHeader: false returns raw PCM', () async {
       final input = Uint8List.fromList([1, 2, 3]);
-      final result = await AudioDecoder.convertToWavBytes(input,
-          formatHint: 'mp3', includeHeader: false);
+      final result = await AudioDecoder.convertToWavBytes(input, formatHint: 'mp3', includeHeader: false);
       expect(result, isNotEmpty);
       expect(result[0], isNot(0x52)); // Should not start with 'R' from RIFF
     });

@@ -48,7 +48,14 @@ abstract base class AudioDecoderPlatform extends PlatformInterface {
     throw UnimplementedError('getWaveform() has not been implemented.');
   }
 
-  Future<Uint8List> convertToWavBytes(Uint8List inputData, String formatHint, {int? sampleRate, int? channels, int? bitDepth, bool? includeHeader}) {
+  Future<Uint8List> convertToWavBytes(
+    Uint8List inputData,
+    String formatHint, {
+    int? sampleRate,
+    int? channels,
+    int? bitDepth,
+    bool? includeHeader,
+  }) {
     throw UnimplementedError('convertToWavBytes() has not been implemented.');
   }
 
@@ -60,7 +67,13 @@ abstract base class AudioDecoderPlatform extends PlatformInterface {
     throw UnimplementedError('getAudioInfoBytes() has not been implemented.');
   }
 
-  Future<Uint8List> trimAudioBytes(Uint8List inputData, String formatHint, Duration start, Duration end, {String outputFormat = 'wav'}) {
+  Future<Uint8List> trimAudioBytes(
+    Uint8List inputData,
+    String formatHint,
+    Duration start,
+    Duration end, {
+    String outputFormat = 'wav',
+  }) {
     throw UnimplementedError('trimAudioBytes() has not been implemented.');
   }
 
