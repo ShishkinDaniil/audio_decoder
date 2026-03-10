@@ -1,3 +1,11 @@
+## 0.7.4
+
+* **Swift Package Manager support** for iOS and macOS — plugin can now be consumed via SPM in addition to CocoaPods.
+* Add Apple privacy manifest (`PrivacyInfo.xcprivacy`) for iOS 17+ compliance.
+* Restyle example app waveform widget with responsive `AspectRatio` layout.
+* Replace pub.dev screenshot with package logo.
+* Documentation and code cleanup (formatter unification, constant extraction, CHANGELOG correction).
+
 ## 0.7.3
 
 * **Documentation & presentation improvements** (no API changes)
