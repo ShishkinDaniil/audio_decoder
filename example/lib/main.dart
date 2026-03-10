@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:audio_decoder/audio_decoder.dart';
 
+const _kTestToneMp3 = 'assets/test_tone.mp3';
+const _kTestToneM4a = 'assets/test_tone.m4a';
+const _kTestToneWav = 'assets/test_tone.wav';
+
 enum _StatusType { ready, loading, success, error }
 
 void main() {
@@ -211,7 +215,7 @@ class _MyAppState extends State<MyApp> {
       // Extract normalized amplitude data (0.0-1.0) for waveform visualization
       final waveform = await AudioDecoder.getWaveform(
         inputPath,
-        numberOfSamples: 100,
+        numberOfSamples: 20,
       );
 
       setState(() {
@@ -592,21 +596,21 @@ class _MyAppState extends State<MyApp> {
                           icon: Icons.audio_file,
                           onPressed: _busy
                               ? null
-                              : () => _convertToWav('assets/test_tone.mp3'),
+                              : () => _convertToWav(_kTestToneMp3),
                         ),
                         _actionButton(
                           label: 'M4A → WAV',
                           icon: Icons.audio_file,
                           onPressed: _busy
                               ? null
-                              : () => _convertToWav('assets/test_tone.m4a'),
+                              : () => _convertToWav(_kTestToneM4a),
                         ),
                         _actionButton(
                           label: 'WAV → M4A',
                           icon: Icons.audio_file,
                           onPressed: _busy
                               ? null
-                              : () => _convertToM4a('assets/test_tone.wav'),
+                              : () => _convertToM4a(_kTestToneWav),
                         ),
                       ],
                     ),
@@ -619,14 +623,14 @@ class _MyAppState extends State<MyApp> {
                           icon: Icons.info_outline,
                           onPressed: _busy
                               ? null
-                              : () => _getAudioInfo('assets/test_tone.mp3'),
+                              : () => _getAudioInfo(_kTestToneMp3),
                         ),
                         _actionButton(
                           label: 'Get Waveform (MP3)',
                           icon: Icons.graphic_eq,
                           onPressed: _busy
                               ? null
-                              : () => _getWaveform('assets/test_tone.mp3'),
+                              : () => _getWaveform(_kTestToneMp3),
                         ),
                       ],
                     ),
@@ -639,7 +643,7 @@ class _MyAppState extends State<MyApp> {
                           icon: Icons.content_cut,
                           onPressed: _busy
                               ? null
-                              : () => _trimAudio('assets/test_tone.mp3'),
+                              : () => _trimAudio(_kTestToneMp3),
                         ),
                       ],
                     ),
@@ -652,39 +656,35 @@ class _MyAppState extends State<MyApp> {
                           icon: Icons.swap_horiz,
                           onPressed: _busy
                               ? null
-                              : () =>
-                                    _convertToWavBytes('assets/test_tone.mp3'),
+                              : () => _convertToWavBytes(_kTestToneMp3),
                         ),
                         _actionButton(
                           label: 'MP3 → raw PCM (bytes)',
                           icon: Icons.data_array,
                           onPressed: _busy
                               ? null
-                              : () => _convertToRawPcmBytes(
-                                  'assets/test_tone.mp3',
-                                ),
+                              : () => _convertToRawPcmBytes(_kTestToneMp3),
                         ),
                         _actionButton(
                           label: 'Get Audio Info (bytes)',
                           icon: Icons.info_outline,
                           onPressed: _busy
                               ? null
-                              : () =>
-                                    _getAudioInfoBytes('assets/test_tone.mp3'),
+                              : () => _getAudioInfoBytes(_kTestToneMp3),
                         ),
                         _actionButton(
                           label: 'Trim MP3 (0.2s – 0.8s, bytes)',
                           icon: Icons.content_cut,
                           onPressed: _busy
                               ? null
-                              : () => _trimAudioBytes('assets/test_tone.mp3'),
+                              : () => _trimAudioBytes(_kTestToneMp3),
                         ),
                         _actionButton(
                           label: 'Get Waveform (bytes)',
                           icon: Icons.graphic_eq,
                           onPressed: _busy
                               ? null
-                              : () => _getWaveformBytes('assets/test_tone.mp3'),
+                              : () => _getWaveformBytes(_kTestToneMp3),
                         ),
                       ],
                     ),
