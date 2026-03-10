@@ -54,13 +54,9 @@ class _MyAppState extends State<MyApp> {
     try {
       final inputPath = await _copyAssetToTemp(assetPath);
       final inputSize = File(inputPath).lengthSync();
-      final baseName = assetPath
-          .split('/')
-          .last
-          .replaceAll(RegExp(r'\.[^.]+$'), '');
+      final baseName = assetPath.split('/').last.replaceAll(RegExp(r'\.[^.]+$'), '');
 
-      final outputPath =
-          '${Directory.systemTemp.path}/${baseName}_converted.wav';
+      final outputPath = '${Directory.systemTemp.path}/${baseName}_converted.wav';
       // Convert any audio format to WAV (lossless PCM)
       final result = await AudioDecoder.convertToWav(inputPath, outputPath);
       final outputSize = await File(result).length();
@@ -97,13 +93,9 @@ class _MyAppState extends State<MyApp> {
     try {
       final inputPath = await _copyAssetToTemp(assetPath);
       final inputSize = File(inputPath).lengthSync();
-      final baseName = assetPath
-          .split('/')
-          .last
-          .replaceAll(RegExp(r'\.[^.]+$'), '');
+      final baseName = assetPath.split('/').last.replaceAll(RegExp(r'\.[^.]+$'), '');
 
-      final outputPath =
-          '${Directory.systemTemp.path}/${baseName}_converted.m4a';
+      final outputPath = '${Directory.systemTemp.path}/${baseName}_converted.m4a';
       // Convert any audio format to M4A (compressed AAC)
       final result = await AudioDecoder.convertToM4a(inputPath, outputPath);
       final outputSize = await File(result).length();
@@ -213,10 +205,7 @@ class _MyAppState extends State<MyApp> {
     try {
       final inputPath = await _copyAssetToTemp(assetPath);
       // Extract normalized amplitude data (0.0-1.0) for waveform visualization
-      final waveform = await AudioDecoder.getWaveform(
-        inputPath,
-        numberOfSamples: 20,
-      );
+      final waveform = await AudioDecoder.getWaveform(inputPath, numberOfSamples: 20);
 
       setState(() {
         _waveform = waveform;
@@ -258,10 +247,7 @@ class _MyAppState extends State<MyApp> {
     try {
       final inputBytes = await _loadAssetBytes(assetPath);
       // Convert in-memory audio bytes to WAV format (requires formatHint)
-      final wavBytes = await AudioDecoder.convertToWavBytes(
-        inputBytes,
-        formatHint: ext,
-      );
+      final wavBytes = await AudioDecoder.convertToWavBytes(inputBytes, formatHint: ext);
 
       setState(() {
         _statusType = _StatusType.success;
@@ -294,16 +280,9 @@ class _MyAppState extends State<MyApp> {
 
     try {
       final inputBytes = await _loadAssetBytes(assetPath);
-      final wavBytes = await AudioDecoder.convertToWavBytes(
-        inputBytes,
-        formatHint: ext,
-      );
+      final wavBytes = await AudioDecoder.convertToWavBytes(inputBytes, formatHint: ext);
       // Get raw PCM data without WAV header (set includeHeader: false)
-      final pcmBytes = await AudioDecoder.convertToWavBytes(
-        inputBytes,
-        formatHint: ext,
-        includeHeader: false,
-      );
+      final pcmBytes = await AudioDecoder.convertToWavBytes(inputBytes, formatHint: ext, includeHeader: false);
 
       setState(() {
         _statusType = _StatusType.success;
@@ -337,10 +316,7 @@ class _MyAppState extends State<MyApp> {
 
     try {
       final inputBytes = await _loadAssetBytes(assetPath);
-      final info = await AudioDecoder.getAudioInfoBytes(
-        inputBytes,
-        formatHint: ext,
-      );
+      final info = await AudioDecoder.getAudioInfoBytes(inputBytes, formatHint: ext);
 
       setState(() {
         _statusType = _StatusType.success;
@@ -415,11 +391,7 @@ class _MyAppState extends State<MyApp> {
     try {
       final inputBytes = await _loadAssetBytes(assetPath);
       // Extract waveform data from in-memory audio bytes
-      final waveform = await AudioDecoder.getWaveformBytes(
-        inputBytes,
-        formatHint: ext,
-        numberOfSamples: 100,
-      );
+      final waveform = await AudioDecoder.getWaveformBytes(inputBytes, formatHint: ext, numberOfSamples: 100);
 
       setState(() {
         _waveform = waveform;
@@ -440,11 +412,7 @@ class _MyAppState extends State<MyApp> {
   // UI helpers
   // ---------------------------------------------------------------------------
 
-  Widget _sectionCard({
-    required String title,
-    required IconData icon,
-    required List<Widget> children,
-  }) {
+  Widget _sectionCard({required String title, required IconData icon, required List<Widget> children}) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: Padding(
@@ -454,11 +422,7 @@ class _MyAppState extends State<MyApp> {
           children: [
             Row(
               children: [
-                Icon(
-                  icon,
-                  size: 20,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                Icon(icon, size: 20, color: Theme.of(context).colorScheme.primary),
                 const SizedBox(width: 8),
                 Text(title, style: Theme.of(context).textTheme.titleSmall),
               ],
@@ -471,20 +435,12 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget _actionButton({
-    required String label,
-    required IconData icon,
-    required VoidCallback? onPressed,
-  }) {
+  Widget _actionButton({required String label, required IconData icon, required VoidCallback? onPressed}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: SizedBox(
         width: double.infinity,
-        child: FilledButton.tonalIcon(
-          onPressed: onPressed,
-          icon: Icon(icon, size: 18),
-          label: Text(label),
-        ),
+        child: FilledButton.tonalIcon(onPressed: onPressed, icon: Icon(icon, size: 18), label: Text(label)),
       ),
     );
   }
@@ -505,22 +461,13 @@ class _MyAppState extends State<MyApp> {
     };
 
     final statusIcon = switch (_statusType) {
-      _StatusType.ready => Icon(
-        Icons.audio_file,
-        color: colorScheme.onSurfaceVariant,
-      ),
+      _StatusType.ready => Icon(Icons.audio_file, color: colorScheme.onSurfaceVariant),
       _StatusType.loading => SizedBox(
         width: 20,
         height: 20,
-        child: CircularProgressIndicator(
-          strokeWidth: 2.5,
-          color: colorScheme.primary,
-        ),
+        child: CircularProgressIndicator(strokeWidth: 2.5, color: colorScheme.primary),
       ),
-      _StatusType.success => Icon(
-        Icons.check_circle_outline,
-        color: colorScheme.primary,
-      ),
+      _StatusType.success => Icon(Icons.check_circle_outline, color: colorScheme.primary),
       _StatusType.error => Icon(Icons.error_outline, color: colorScheme.error),
     };
 
@@ -546,8 +493,7 @@ class _MyAppState extends State<MyApp> {
                           Expanded(
                             child: Text(
                               _status,
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(fontFamily: 'monospace'),
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(fontFamily: 'monospace'),
                             ),
                           ),
                         ],
@@ -559,9 +505,7 @@ class _MyAppState extends State<MyApp> {
                           decoration: BoxDecoration(
                             color: colorScheme.surfaceContainerLowest,
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: colorScheme.outlineVariant,
-                            ),
+                            border: Border.all(color: colorScheme.outlineVariant),
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 2),
                           clipBehavior: Clip.antiAlias,
@@ -594,23 +538,17 @@ class _MyAppState extends State<MyApp> {
                         _actionButton(
                           label: 'MP3 → WAV',
                           icon: Icons.audio_file,
-                          onPressed: _busy
-                              ? null
-                              : () => _convertToWav(_kTestToneMp3),
+                          onPressed: _busy ? null : () => _convertToWav(_kTestToneMp3),
                         ),
                         _actionButton(
                           label: 'M4A → WAV',
                           icon: Icons.audio_file,
-                          onPressed: _busy
-                              ? null
-                              : () => _convertToWav(_kTestToneM4a),
+                          onPressed: _busy ? null : () => _convertToWav(_kTestToneM4a),
                         ),
                         _actionButton(
                           label: 'WAV → M4A',
                           icon: Icons.audio_file,
-                          onPressed: _busy
-                              ? null
-                              : () => _convertToM4a(_kTestToneWav),
+                          onPressed: _busy ? null : () => _convertToM4a(_kTestToneWav),
                         ),
                       ],
                     ),
@@ -621,16 +559,12 @@ class _MyAppState extends State<MyApp> {
                         _actionButton(
                           label: 'Get Audio Info (MP3)',
                           icon: Icons.info_outline,
-                          onPressed: _busy
-                              ? null
-                              : () => _getAudioInfo(_kTestToneMp3),
+                          onPressed: _busy ? null : () => _getAudioInfo(_kTestToneMp3),
                         ),
                         _actionButton(
                           label: 'Get Waveform (MP3)',
                           icon: Icons.graphic_eq,
-                          onPressed: _busy
-                              ? null
-                              : () => _getWaveform(_kTestToneMp3),
+                          onPressed: _busy ? null : () => _getWaveform(_kTestToneMp3),
                         ),
                       ],
                     ),
@@ -641,9 +575,7 @@ class _MyAppState extends State<MyApp> {
                         _actionButton(
                           label: 'Trim MP3 (0.2s – 0.8s) → WAV',
                           icon: Icons.content_cut,
-                          onPressed: _busy
-                              ? null
-                              : () => _trimAudio(_kTestToneMp3),
+                          onPressed: _busy ? null : () => _trimAudio(_kTestToneMp3),
                         ),
                       ],
                     ),
@@ -654,37 +586,27 @@ class _MyAppState extends State<MyApp> {
                         _actionButton(
                           label: 'MP3 → WAV (bytes)',
                           icon: Icons.swap_horiz,
-                          onPressed: _busy
-                              ? null
-                              : () => _convertToWavBytes(_kTestToneMp3),
+                          onPressed: _busy ? null : () => _convertToWavBytes(_kTestToneMp3),
                         ),
                         _actionButton(
                           label: 'MP3 → raw PCM (bytes)',
                           icon: Icons.data_array,
-                          onPressed: _busy
-                              ? null
-                              : () => _convertToRawPcmBytes(_kTestToneMp3),
+                          onPressed: _busy ? null : () => _convertToRawPcmBytes(_kTestToneMp3),
                         ),
                         _actionButton(
                           label: 'Get Audio Info (bytes)',
                           icon: Icons.info_outline,
-                          onPressed: _busy
-                              ? null
-                              : () => _getAudioInfoBytes(_kTestToneMp3),
+                          onPressed: _busy ? null : () => _getAudioInfoBytes(_kTestToneMp3),
                         ),
                         _actionButton(
                           label: 'Trim MP3 (0.2s – 0.8s, bytes)',
                           icon: Icons.content_cut,
-                          onPressed: _busy
-                              ? null
-                              : () => _trimAudioBytes(_kTestToneMp3),
+                          onPressed: _busy ? null : () => _trimAudioBytes(_kTestToneMp3),
                         ),
                         _actionButton(
                           label: 'Get Waveform (bytes)',
                           icon: Icons.graphic_eq,
-                          onPressed: _busy
-                              ? null
-                              : () => _getWaveformBytes(_kTestToneMp3),
+                          onPressed: _busy ? null : () => _getWaveformBytes(_kTestToneMp3),
                         ),
                       ],
                     ),
@@ -705,11 +627,7 @@ class _WaveformPainter extends CustomPainter {
   final Color color;
   final Color accentColor;
 
-  _WaveformPainter(
-    this.waveform, {
-    required this.color,
-    required this.accentColor,
-  });
+  _WaveformPainter(this.waveform, {required this.color, required this.accentColor});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -728,11 +646,7 @@ class _WaveformPainter extends CustomPainter {
       final x = i * barWidth;
       canvas.drawRRect(
         RRect.fromRectAndRadius(
-          Rect.fromCenter(
-            center: Offset(x + barWidth / 2, midY),
-            width: barWidth * 0.7,
-            height: barHeight * 2,
-          ),
+          Rect.fromCenter(center: Offset(x + barWidth / 2, midY), width: barWidth * 0.7, height: barHeight * 2),
           radius,
         ),
         paint,
@@ -742,7 +656,5 @@ class _WaveformPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_WaveformPainter old) =>
-      old.waveform != waveform ||
-      old.color != color ||
-      old.accentColor != accentColor;
+      old.waveform != waveform || old.color != color || old.accentColor != accentColor;
 }

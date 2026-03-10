@@ -3,15 +3,11 @@ import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Read a little-endian uint16 from [bytes] at [offset].
-int readUint16LE(Uint8List bytes, int offset) =>
-    bytes[offset] | (bytes[offset + 1] << 8);
+int readUint16LE(Uint8List bytes, int offset) => bytes[offset] | (bytes[offset + 1] << 8);
 
 /// Read a little-endian uint32 from [bytes] at [offset].
 int readUint32LE(Uint8List bytes, int offset) =>
-    bytes[offset] |
-    (bytes[offset + 1] << 8) |
-    (bytes[offset + 2] << 16) |
-    (bytes[offset + 3] << 24);
+    bytes[offset] | (bytes[offset + 1] << 8) | (bytes[offset + 2] << 16) | (bytes[offset + 3] << 24);
 
 /// Validate the WAV header structure of [bytes] and return a map with
 /// the parsed header fields.
