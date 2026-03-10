@@ -205,7 +205,7 @@ class _MyAppState extends State<MyApp> {
     try {
       final inputPath = await _copyAssetToTemp(assetPath);
       // Extract normalized amplitude data (0.0-1.0) for waveform visualization
-      final waveform = await AudioDecoder.getWaveform(inputPath, numberOfSamples: 20);
+      final waveform = await AudioDecoder.getWaveform(inputPath, numberOfSamples: 50);
 
       setState(() {
         _waveform = waveform;
@@ -391,7 +391,7 @@ class _MyAppState extends State<MyApp> {
     try {
       final inputBytes = await _loadAssetBytes(assetPath);
       // Extract waveform data from in-memory audio bytes
-      final waveform = await AudioDecoder.getWaveformBytes(inputBytes, formatHint: ext, numberOfSamples: 100);
+      final waveform = await AudioDecoder.getWaveformBytes(inputBytes, formatHint: ext, numberOfSamples: 50);
 
       setState(() {
         _waveform = waveform;
@@ -500,21 +500,22 @@ class _MyAppState extends State<MyApp> {
                       ),
                       if (_waveform != null) ...[
                         const SizedBox(height: 12),
-                        Container(
-                          height: 150,
-                          decoration: BoxDecoration(
-                            color: colorScheme.surfaceContainerLowest,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: colorScheme.outlineVariant),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 2),
-                          clipBehavior: Clip.antiAlias,
-                          child: CustomPaint(
-                            size: const Size(double.infinity, 120),
-                            painter: _WaveformPainter(
-                              _waveform!,
-                              color: colorScheme.primary,
-                              accentColor: colorScheme.tertiary,
+                        AspectRatio(
+                          aspectRatio: 2,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: colorScheme.surface,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: colorScheme.outlineVariant),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 2),
+                            clipBehavior: Clip.antiAlias,
+                            child: CustomPaint(
+                              painter: _WaveformPainter(
+                                _waveform!,
+                                color: Colors.indigo,
+                                accentColor: Colors.purple,
+                              ),
                             ),
                           ),
                         ),
