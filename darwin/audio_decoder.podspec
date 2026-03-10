@@ -13,7 +13,7 @@ A lightweight Flutter plugin for converting, trimming, and analyzing audio files
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Silversoft' => 'info@silversoft.nl' }
   s.source           = { :path => '.' }
-  s.source_files     = 'Classes/**/*'
+  s.source_files     = 'audio_decoder/Sources/audio_decoder/**/*'
 
   s.ios.dependency 'Flutter'
   s.osx.dependency 'FlutterMacOS'
