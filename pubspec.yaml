@@ -49,8 +49,8 @@ flutter:
         sharedDarwinSource: true
       linux:
         pluginClass: AudioDecoderPlugin
-      windows:
-        pluginClass: AudioDecoderPluginCApi
+      # windows:
+      #   pluginClass: AudioDecoderPluginCApi
       web:
         pluginClass: AudioDecoderWeb
         fileName: audio_decoder_web.dart
